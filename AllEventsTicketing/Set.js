@@ -1,21 +1,45 @@
+function compare(arrayA, arrayB){
+	var results = [];
+    for (var i = 0; i < arrayA.length; i++){
+        var nextValue = arrayA[i];
+        for (var j = 0; j < arrayB.length; j++){
+            if (arrayB[j] === nextValue){
+                results.push(arrayB[j]);
+                break;
+            }
+        }
+    }
+    results.sort();
+    return results;
+}
+function relativeComplement(arrayA, arrayB){
+    var relListB = arrayB.slice(0);
+    for (var j = 0; j < arrayA.length; j++){
+        for (var b = 0; b < relListB.length; b++) {
+            //resultList.push(listB[b]);
+            if (arrayA[j] != relListB[b]) {
+                //resultList.push(relListB[b]);
+            }
+            else {
+                //delete relList[b];
+                relListB[b] = "";
+            }
+        }
+    }
+    return relListB;
+}
 function Set() {
 	
 	
 	this.intersection = function(listA, listB) {
     
-	   var resultList = [];
+	   //check for null values
+		var resultList;
 	   if (listA === null || listB === null){
 	   	return null;
 	   }
-	   for (var i = 0; i < listA.length; i++){
-	   	var nextValue = listA[i];
-	   		for (var j = 0; j < listB.length; j++){
-	   			if (listB[j] === nextValue){
-	   				resultList.push(listB[j]);
-	   				break;
-				}
-		   }
-	   }
+	   //compare list A to list B
+		resultList = compare(listA,listB);
 	   return resultList;
 	}
     
@@ -23,28 +47,29 @@ function Set() {
     
 	this.union = function(listA, listB) {
 
-	   var resultList = [];
-       if (listA === null || listB === null){
-       	return null;
-	   }
-	   for (var i = 0; i < listA.length; i++){
-       	//start counter for List B
-		   //var counter = 0;
-       	var nextValueA = listA[i];
-       	for(var j = 0; j < listB.length; j++){
-       			//counter++;
-       			//Add the first time through list A
-       			//if (counter == 1){
-       				//resultList.push(nextValueA);
-                //}
-                //Go through List B that isn't in List A
-				if(nextValueA !== listB[j]){
-       				resultList.push(listB[j]);
-       				break;
-				}
-		}
-	   }
-	   return resultList;
+        var resultList;
+
+        //check for errors or null values
+        if (listA === null || listB === null){
+            return null;
+        }
+        //find intersection values
+        var intersectionList = compare(listA,listB);
+
+        listB.sort;
+        listA.sort;
+
+        //find relative complement of A
+        var relListA = relativeComplement(intersectionList, listA);
+        //find relative complement of B
+        var relListB = relativeComplement(intersectionList, listB);
+        //combine lists
+        var relList = relListA.concat(relListB);
+        var unionList = relList.concat(intersectionList);
+        unionList.sort();
+        resultList = unionList.slice(0);
+
+        return resultList;
 	}
 
 
@@ -52,24 +77,45 @@ function Set() {
 
 	this.relativeComplement = function(listA, listB) {
 
-	   var resultList = [];
-       
-	   /*-------------------------------Insert your code here -------------------------------------*/
-	   	   
-	   /*-------------------------------Insert your code here -------------------------------------*/
-       
-	   return resultList;
+        var resultList;
+        //check for errors or null values
+        if (listA === null || listB === null){
+            return null;
+        }
+        //find intersection values
+        var intersectionList = compare(listA,listB);
+
+		listB.sort;
+		//find the relative complement
+        var relList = relativeComplement(intersectionList, listB);
+        resultList = relList.slice(0);
+        return resultList;
 	}
+
 
 
 
 	this.symmetricDifference = function(listA, listB) {
 
-	   var resultList = [];
-       
-	   /*-------------------------------Insert your code here -------------------------------------*/
+	   var resultList;
 
-	   /*-------------------------------Insert your code here -------------------------------------*/
+        //check for errors or null values
+        if (listA === null || listB === null){
+            return null;
+        }
+        //find intersection values
+        var intersectionList = compare(listA,listB);
+
+        listB.sort;
+        listA.sort;
+
+        //find relative complement of A
+        var relListA = relativeComplement(intersectionList, listA);
+        //find relative complement of B
+        var relListB = relativeComplement(intersectionList, listB);
+		//combine lists
+        var relList = relListA.concat(relListB);
+        resultList = relList.slice(0);
        
 	   return resultList;
 	}	
